@@ -4,7 +4,7 @@ import React from "react";
 import EntertainmentCardSlider from "../components/Entertainment/EntertainmentCard.component";
 //import premier
 //import Premier from "../components/premier/premier.component";
-import { Premier } from "../components/premier/premier.component";
+//import { Premier } from "../components/premier/premier.component";
 //temp
 
 import TempPosters from "../config/TempPosters.config";
