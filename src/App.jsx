@@ -13,6 +13,8 @@ import HomePage from "./Pages/Home.page";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Movie from "./Pages/Movie.page";
+//import plays from pages
+import Plays from "./Pages/Plays.pages";
 //mport movie
 
 
@@ -29,6 +31,7 @@ return (
   <>
  <DefaultHOC path="/" exact component={HomePage}/>
  <MovieHOC path="/movie/:id" export component={Movie}/>
+ <DefaultHOC path="/plays" exact component={Plays}/>
   </>
   );
 }
