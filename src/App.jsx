@@ -1,4 +1,5 @@
-import { Route } from "react-router-dom";
+//import { Route } from "react-router-dom";
+import axios from "axios";
 
 //import ho
 import MovieHOC from "./HOC/Movie.HOC";
@@ -17,6 +18,10 @@ import Movie from "./Pages/Movie.page";
 import Plays from "./Pages/Plays.pages";
 //mport movie
 
+//axios default settings
+axios.defaults.baseURL= "https://api.themoviedb.org/3";
+axios.defaults.params = {};
+axios.defaults.params["api_key"] = process.env.REACT_APP_API_KEY;
 
 
 function App() {
