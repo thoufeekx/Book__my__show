@@ -1,8 +1,11 @@
-import React from 'react'
+import React,  {useContext} from 'react'
 
 import Movieinfo from './Movieinfo.component';
-
+import {MovieContext} from "../../context/movie.context";
 const MovieHero = () => {
+
+  const {movie} = useContext(MovieContext);
+   
     return (
         <>
         <div>
@@ -12,7 +15,7 @@ const MovieHero = () => {
                 <div className="absolute z-20 bottom-4 left-4"><Movieinfo/></div>
             
             <div className="w-full h-56 bg-opacity-90 absolute bg-black z-10 bottom-0"/>
-            <img src="https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/radioactive-et00302293-01-07-2021-11-05-20.jpg"
+            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
             alt="poster"
             className="w-full h-full"
             />
@@ -31,7 +34,7 @@ const MovieHero = () => {
 
             <div className=" w-full h-56 bg-opacity-90 absolute bg-black z-10 bottom-0"/>
                  
-            <img src="https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/radioactive-et00302293-01-07-2021-11-05-20.jpg"
+            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
             alt="poster"
             className="w-full h-full"
             />
@@ -52,7 +55,7 @@ const MovieHero = () => {
             
           <div className="absolute z-30  left-24 top-10 flex items-center gap-10">
             <div className="w-64 h-96">
-                <img src="https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/radioactive-et00302293-01-07-2021-11-05-20.jpg"
+                <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                 alt="poster"
                 className="w-full h-full  rounded-xl"
                 />
@@ -64,7 +67,7 @@ const MovieHero = () => {
 
           </div> 
            
-            <img src="https://in.bmscdn.com/iedb/movies/images/extra/horizontal_no_logo/mobile/listing/xxlarge/radioactive-et00302293-01-07-2021-11-05-20.jpg"
+            <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
             alt="poster"
             className="w-full h-full"
             />
