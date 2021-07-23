@@ -12,6 +12,25 @@ export default function PaymentModal({isOpen, setIsOpen, price}) {
     setIsOpen(true)
   }
 
+  const launchRazorPay = () => {
+      let options ={
+          key : "rzp_test_4Z83uLcCQmFuKF",
+          amount: price*100,
+          currency:"INR",
+          name:"BMS",
+          description: "Movie purchase/rental",
+          image: "https://i.ibb.co/zPBYW3H/imgbin-bookmyshow-office-android-ticket-png.png",
+          handler: () => {
+              setIsOpen(false);
+              alert("Payment done");
+          },
+        theme: {color:"#c4242d"},
+      };
+
+      let razorPay = new window.Razorpay(options);
+      razorPay.open();
+  };
+
   return (
     <>
       
@@ -68,7 +87,7 @@ export default function PaymentModal({isOpen, setIsOpen, price}) {
                   <button
                     type="button"
                     className="w-full inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={closeModal}
+                    onClick={launchRazorPay}
                   >
                    Pay ₹{price}
                   </button>
