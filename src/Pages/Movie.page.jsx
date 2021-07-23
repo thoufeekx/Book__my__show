@@ -1,5 +1,11 @@
-import React from 'react'
+
 import {FaCcVisa, FaApplePay} from "react-icons/fa";
+import React, {useContext, useState, useEffect} from 'react';
+
+import axios from "axios";
+import { useParams } from "react-router";
+
+import Slider from "react-slick";
 import MovieHero from '../components/MovieHero/MovieHero.component';
 import Cast from '../components/Cast/cast.component';
 
@@ -7,11 +13,49 @@ import TempPosters from "../config/TempPosters.config";
 
 import PosterSlider from "../components/PosterSlider/PosterSlider.component";
 
+import { MovieContext } from "../context/movie.context";
+
 
 
 
  const Movie = () => {
 
+   const {id} = useParams();
+
+   const {movie} = useContext(MovieContext);
+
+   const [cast, setCast] = useState([]);
+   const [similarMovies, setSimilarMovies] = useState([]);
+   const [recommended, setRecommendedMovies] = useState([]);
+
+   useEffect(() => {
+     const requestCast = async() => {
+       const getCast = await axios.get(`/movie/${id}/credits`);
+       console.log(getCast.data.cast);
+       setCast(getCast.data.cast);
+     };
+     requestCast();
+   },[id]);
+
+
+   useEffect(() => {
+    const requestSimilarMovies = async () => {
+      const getSimilarMovies = await axios.get(`/movie/${id}/similar`);
+      setSimilarMovies(getSimilarMovies.data.results);
+    };
+    requestSimilarMovies();
+    
+  }, []);
+
+
+  useEffect(() => {
+    const requestRecommendedMovies = async () => {
+      const getRecommendedMovies = await axios.get(`/movie/${id}/recommendations`);
+      setRecommendedMovies(getRecommendedMovies.data.results);
+    };
+    requestRecommendedMovies();
+    
+  }, []);
 
   const settings = {
     infinite: false,
@@ -46,6 +90,39 @@ import PosterSlider from "../components/PosterSlider/PosterSlider.component";
     ],
   };
 
+  const settingsCast = {
+    infinite: false,
+    speed: 500,
+    slidesToShow: 6,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
     return (
       <>
     
@@ -57,7 +134,7 @@ import PosterSlider from "../components/PosterSlider/PosterSlider.component";
         <div className="flex flex-col items-start gap-3">
 
         <h2 className="text-gray-800 font-bold text-2xl">About the Movie</h2>
-        <p className="">After a tragic accident, Nobel laureate Marie Curie keeps working on radioactive elements which results in revolutionary discoveries that have dramatic consequences for the modern world.</p>
+        <p className="">{movie.overview}</p>
 
         </div>
            <div className="my-8 ">
@@ -112,26 +189,19 @@ import PosterSlider from "../components/PosterSlider/PosterSlider.component";
      <div className="my-8">
 
      <h2 className="text-gray-800 font-bold text-2xl mb-4">Cast and crew</h2>
-     <div className="flex flex-wrap gap-3">
-        
-        <Cast
-        image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/rosamund-pike-1931-24-03-2017-17-29-41.jpg"
-        castName="Rosmund pike"
-        role="Marie Curie"
-        />
-
-        <Cast
-        image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/sam-riley-29714-24-03-2017-17-32-59.jpg"
-        castName="Sam Riley"
-        role="Peirre Curie"
-        />
-
-        <Cast
-        image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/simon-russell-beale-27023-24-03-2017-13-49-17.jpg"
-        castName="Simon Russell Beale"
-        role="Beale"
-        />
-      </div>
+     
+     <Slider {...settingsCast}>
+            {cast.map((castdata) => (
+              <Cast
+                image={`https://image.tmdb.org/t/p/original/${castdata.profile_path}`}
+                castName={castdata.original_name}
+                role={castdata.character}
+              />
+            ))}
+          </Slider>
+   
+       
+      
 
       <div className="my-8 ">
            <hr />
@@ -142,7 +212,7 @@ import PosterSlider from "../components/PosterSlider/PosterSlider.component";
        <div className="my-8">
        <PosterSlider
        config={settings}
-       images={TempPosters} 
+       images={similarMovies} 
        title="You might also like" 
        isDark={false}/>   
       </div> 
@@ -155,7 +225,7 @@ import PosterSlider from "../components/PosterSlider/PosterSlider.component";
       <div className="my-8">
        <PosterSlider
        config={settings}
-       images={TempPosters} 
+       images={recommended} 
        title="BMS Exclusive" 
        isDark={false}/>   
       </div> 
