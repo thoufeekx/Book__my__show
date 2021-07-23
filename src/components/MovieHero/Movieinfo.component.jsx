@@ -1,14 +1,38 @@
 
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {MovieContext} from "../../context/movie.context"
+//import payment modal
+import PaymentModal from '../PaymentModal/Payment.component';
+
 
 
 const Movieinfo = () => {
 
+
+    const [isOpen, setIsOpen]= useState(false);
+    const [price, setprice]= useState(0);
+
     const {movie} =useContext(MovieContext);
     const genres=movie.genres?.map(({name}) => name).join(", ");
+
+const rentMovies = () =>{
+
+    setIsOpen(true);
+    setprice(149);
+};
+
+
+
+const buyMovies = () =>{
+
+    setIsOpen(true);
+    setprice(599);
+};
+
+
     return (
         <>
+        <PaymentModal setIsOpen={setIsOpen} isOpen={isOpen} price={price} />
         <div className="flex flex-col gap-3 lg:gap-8">
 
 
@@ -35,11 +59,14 @@ const Movieinfo = () => {
             </div>
             <div className="flex items-center gap-3 md:w-screen lg:w-full md:px-4">
 
-                    <button className="bg-red-500 w-full py-3 text-white font-semibold rounded-lg">
+                    <button onClick={rentMovies} 
+                    className="bg-red-500 w-full py-3 text-white font-semibold rounded-lg">
                             Rent ₹149
                     </button>
 
-                    <button className="bg-red-500 w-full py-3 text-white font-semibold rounded-lg">
+                    <button 
+                    onClick={buyMovies}
+                    className="bg-red-500 w-full py-3 text-white font-semibold rounded-lg">
                             Buy  ₹650
                     </button>
 

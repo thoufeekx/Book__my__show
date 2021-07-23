@@ -45,7 +45,7 @@ import { MovieContext } from "../context/movie.context";
     };
     requestSimilarMovies();
     
-  }, []);
+  }, [id]);
 
 
   useEffect(() => {
@@ -55,7 +55,7 @@ import { MovieContext } from "../context/movie.context";
     };
     requestRecommendedMovies();
     
-  }, []);
+  }, [id]);
 
   const settings = {
     infinite: false,
